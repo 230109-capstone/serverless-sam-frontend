@@ -1,0 +1,1 @@
+export const remoteUrl: string = "";
