@@ -3,6 +3,7 @@ import { LoginUser } from "../../models/User";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import './register.css'
+import { error } from "console";
 
 function Register() {
     const [ username, setUsername ] = useState('');
@@ -11,14 +12,16 @@ function Register() {
 
     async function registerSubmit() {
         const response = await axios.post('someaddressforlambda', {"username": username, "password": password});
-
-        if (response.status === 200){
-            alert("Registered Successfully");
-            navigate('/login');
-        } else {
-            alert(response);
-        }
-    }
+        try{
+            if (response.status === 200) {
+              alert('Successfully Registered');
+              navigate('/login');
+          }
+        }catch(error) {
+            alert(error);
+          };
+        };
+    
 
     return ( 
         <>
