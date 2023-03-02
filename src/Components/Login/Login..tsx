@@ -37,7 +37,7 @@ function Login() {
 
     useEffect(() => {
         if (userState.isLoggedIn) {
-            navigate('/lmao')
+            navigate('/home')
         }
     }, [userState.isLoggedIn])
 
