@@ -15,7 +15,7 @@ function Register() {
         try{
             if (response.status === 200) {
               alert('Successfully Registered');
-              navigate('/login');
+              navigate('/');
           }
         }catch(error) {
             alert(error);
