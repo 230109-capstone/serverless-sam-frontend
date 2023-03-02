@@ -32,7 +32,7 @@ function Register() {
             <p><input onChange={(e)=> { setPassword((e.target.value)) }} value={password} type="text" name="password" placeholder="Password"/></p>
             <button className="registerbtn" onClick={registerSubmit}>Create Account</button>
         </form>
-        <Link className="loginLink" to='/login'>Already have an account?</Link>
+        <Link className="loginLink" to='/'>Already have an account?</Link>
     </div>
         </>
     )
