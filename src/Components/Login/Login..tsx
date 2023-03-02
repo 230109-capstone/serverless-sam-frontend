@@ -1,57 +1,64 @@
 import './Login.css'
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../redux/slices/userSlice";
 import {AppDispatch, RootState} from "../../redux/Store";
+import {LoginUser} from "../../models/User";
+import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 function Login() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
     const dispatch: AppDispatch = useDispatch();
-    const userState = useSelector((state: RootState)=>state.user)
+    const userState = useSelector((state: RootState) => state.user)
+    const navigate = useNavigate()
 
-    function usernameHandler(event: any) {
+    function usernameHandler(event: React.ChangeEvent<HTMLInputElement>) {
         setUsername(event.target.value)
     }
 
-    function passwordHandler(event: any) {
+    function passwordHandler(event: React.ChangeEvent<HTMLInputElement>) {
         setPassword(event.target.value)
     }
 
-    function submitHandler(event: any) {
+    function submitHandler(event: React.FormEvent) {
         event.preventDefault()
-        const user = {
+        const user: LoginUser = {
             username,
             password
         }
 
         dispatch(login(user))
             .then(() => {
-                //Todo: Add a navigate
+                navigate('/')
             })
     }
 
-    useEffect(()=>{
-        if(userState.isLoggedIn){
-            //Todo: add navigate
+    useEffect(() => {
+        if (userState.isLoggedIn) {
+            navigate('/lmao')
         }
     }, [userState.isLoggedIn])
 
     return (
         <form name="loginForm" id="loginForm" onSubmit={submitHandler}>
-            <h1>Login</h1>
+            <h3 className="header">Login</h3>
 
             {userState.loginError ? <h3>Incorrect email or password </h3> : <></>}
 
-            <label>Username</label>
-            <input type="text" id="usernameLogin" name="username" placeholder="username" onChange={usernameHandler}
-                   required/>
+            <p><input type="text" className="inputLogin" name="username" placeholder="username"
+                      onChange={usernameHandler}
+                      required/></p>
 
-            <label>Password</label>
-            <input type="password" id="passwordLogin" name='password' placeholder='password' onChange={passwordHandler}
-                   required/>
+            <p><input type="password" className="inputLogin" name='password' placeholder='password'
+                      onChange={passwordHandler}
+                      required/></p>
 
-            <input type="submit" id="loginButton" value="Log In"/>
+            <input type="submit" id="loginBtn" value="Log In"/>
+            <Link className="registerLink" to='/register'>Don't have an account?</Link>
+
+
         </form>
     )
 }
