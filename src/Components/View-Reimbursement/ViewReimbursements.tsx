@@ -1,9 +1,9 @@
 import React from 'react'
 
-function viewReimbursement() {
+function ViewReimbursements() {
   return (
     <div>View Reimbursements</div>
   )
 }
 
-export default viewReimbursement
+export default ViewReimbursements
