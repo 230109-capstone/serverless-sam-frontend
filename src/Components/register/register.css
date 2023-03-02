@@ -42,7 +42,6 @@
       transition: all 0.3s ease-out;
       background: rgb(207, 135, 53);
       color: #242424;
-      transition: 250ms;
     }
   
     input {

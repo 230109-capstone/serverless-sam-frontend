@@ -3,6 +3,7 @@ import { LoginUser } from "../../models/User";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import './register.css'
+import { error } from "console";
 
 function Register() {
     const [ username, setUsername ] = useState('');
@@ -11,14 +12,16 @@ function Register() {
 
     async function registerSubmit() {
         const response = await axios.post('someaddressforlambda', {"username": username, "password": password});
-
-        if (response.status === 200){
-            alert("Registered Successfully");
-            navigate('/login');
-        } else {
-            alert(response);
-        }
-    }
+        try{
+            if (response.status === 200) {
+              alert('Successfully Registered');
+              navigate('/');
+          }
+        }catch(error) {
+            alert(error);
+          };
+        };
+    
 
     return ( 
         <>
@@ -29,7 +32,7 @@ function Register() {
             <p><input onChange={(e)=> { setPassword((e.target.value)) }} value={password} type="text" name="password" placeholder="Password"/></p>
             <button className="registerbtn" onClick={registerSubmit}>Create Account</button>
         </form>
-        <Link className="loginLink" to='/login'>Already have an account?</Link>
+        <Link className="loginLink" to='/'>Already have an account?</Link>
     </div>
         </>
     )
