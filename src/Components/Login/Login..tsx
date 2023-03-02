@@ -31,7 +31,7 @@ function Login() {
 
         dispatch(login(user))
             .then(() => {
-                navigate('/')
+                navigate('/home')
             })
     }
 
