@@ -10,9 +10,6 @@ interface ErrorType {
   message: string
 }
 
-const api = axios.create({
-  baseURL: `bdx5a9kkg3.execute-api.us-east-1.amazonaws.com/Prod`
-})
 
 function ViewReimbursements() {
 
@@ -25,14 +22,14 @@ function ViewReimbursements() {
     const fetchTickets = async () =>{
       setFetch({...fetch, loading: true});
       try {
-        const result = await api.get(`/reimbursements`, {headers: {
+        const result = await axios.get(`bdx5a9kkg3.execute-api.us-east-1.amazonaws.com/Prod/reimbursements`, {headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }});
         setFetch({loading:false, error: false, message: ""})
-        setTickets(result.data)
+        setTickets(result.data.data)
 
-      } catch (err:any) {
-        setFetch({error:true, message:err.response.data.error, loading:false})
+      } catch (err: any) {
+        setFetch({error:true, message:err.response.data.message, loading:false})
       }
     }
   
@@ -40,12 +37,12 @@ function ViewReimbursements() {
   }, [])
   
 
-   const filteredTickets = useMemo(() => {
-        if (!filter) {
-            return tickets;
-        }
-        return tickets.filter((ticket) => ticket.status.includes(filter));
-    }, [filter, tickets]);
+  //  const filteredTickets = useMemo(() => {
+  //       if (!filter) {
+  //           return tickets;
+  //       }
+  //       return tickets.filter((ticket) => ticket.status.includes(filter));
+  //   }, [filter, tickets]);
 
 
 
@@ -57,12 +54,13 @@ function ViewReimbursements() {
         fetch.error ? <h1>{fetch.message}</h1> :
         <div>
           {
-            filteredTickets.map(ticket => (
+            tickets.map(ticket => (
               <ul key={ticket.id}>
                 <li><img src={'s3bucketlink'} alt={ticket.status}/></li>
                 <li>{ticket.description}</li>
                 <li>{ticket.amount}</li>
                 <li>{ticket.status}</li>
+                <li>{ticket.submitter}</li>
                 {
                   User.role === 'finance_manager' && ticket.status === 'pending' ? 
                   <li>
