@@ -28,8 +28,8 @@ function Register() {
         <div className="registration">
         <h3 className="header">Register</h3>
         <form title="register" onSubmit={(event) => {event.preventDefault() }}>
-            <p><input onChange={(e)=> { setUsername((e.target.value)) }} value={username} type="text" name="username" placeholder="Username"/></p>
-            <p><input onChange={(e)=> { setPassword((e.target.value)) }} value={password} type="text" name="password" placeholder="Password"/></p>
+            <p><input className="input" onChange={(e)=> { setUsername((e.target.value)) }} value={username} type="text" name="username" placeholder="Username"/></p>
+            <p><input className="input" onChange={(e)=> { setPassword((e.target.value)) }} value={password} type="text" name="password" placeholder="Password"/></p>
             <button className="registerbtn" onClick={registerSubmit}>Create Account</button>
         </form>
         <Link className="loginLink" to='/'>Already have an account?</Link>
