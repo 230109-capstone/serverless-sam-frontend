@@ -1,5 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/Store'
+
 
 interface ErrorType {
   loading: boolean,
@@ -8,13 +11,14 @@ interface ErrorType {
 }
 
 const api = axios.create({
-  baseURL: `someurl.com`
+  baseURL: `bdx5a9kkg3.execute-api.us-east-1.amazonaws.com/Prod`
 })
 
 function ViewReimbursements() {
 
   const [tickets, setTickets] = useState<any[]>([]);
   const [fetch, setFetch] = useState<ErrorType>({loading: true, error: false, message: ''})
+  const { user: User } = useSelector((state: RootState) => state.user)
 
   useEffect(() => {
     const fetchTickets = async () =>{
@@ -49,6 +53,14 @@ function ViewReimbursements() {
                 <li>{ticket.description}</li>
                 <li>{ticket.amount}</li>
                 <li>{ticket.status}</li>
+                {
+                  User.role === 'finance_manager' ? 
+                  <li>
+                    <button >Approve</button>
+                    <button >Deny</button>
+                  </li> :
+                  <></>
+                }
               </ul>
             ))
           }
