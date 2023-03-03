@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/Store'
 
@@ -18,6 +18,7 @@ function ViewReimbursements() {
 
   const [tickets, setTickets] = useState<any[]>([]);
   const [fetch, setFetch] = useState<ErrorType>({loading: true, error: false, message: ''})
+  const [filter, setFilter] = useState<String> ('');
   const { user: User } = useSelector((state: RootState) => state.user)
 
   useEffect(() => {
@@ -39,6 +40,15 @@ function ViewReimbursements() {
   }, [])
   
 
+   const filteredTickets = useMemo(() => {
+        if (!filter) {
+            return tickets;
+        }
+        return tickets.filter((ticket) => ticket.status.includes(filter));
+    }, [filter, tickets]);
+
+
+
 
   return (
     <div>
@@ -47,7 +57,7 @@ function ViewReimbursements() {
         fetch.error ? <h1>{fetch.message}</h1> :
         <div>
           {
-            tickets.map(ticket => (
+            filteredTickets.map(ticket => (
               <ul key={ticket.id}>
                 <li><img src={'s3bucketlink'} alt={ticket.status}/></li>
                 <li>{ticket.description}</li>
