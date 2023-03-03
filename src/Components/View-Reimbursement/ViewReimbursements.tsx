@@ -54,7 +54,7 @@ function ViewReimbursements() {
                 <li>{ticket.amount}</li>
                 <li>{ticket.status}</li>
                 {
-                  User.role === 'finance_manager' ? 
+                  User.role === 'finance_manager' && ticket.status === 'pending' ? 
                   <li>
                     <button >Approve</button>
                     <button >Deny</button>
