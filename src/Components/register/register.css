@@ -42,10 +42,9 @@
       transition: all 0.3s ease-out;
       background: rgb(207, 135, 53);
       color: #242424;
-      transition: 250ms;
     }
   
-    input {
+    .input {
       font-size: 15px;
       border-width: 1px;
       line-height: 18px;
