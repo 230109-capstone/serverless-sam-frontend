@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Form } from 'react-bootstrap';
-
-
 
 function ReimbursementSubmit(/*props: { refreshReimbursements: () => void }*/) {
     const [amount, setAmount] = useState(0);
@@ -10,16 +7,35 @@ function ReimbursementSubmit(/*props: { refreshReimbursements: () => void }*/) {
     const [image, setImage] = useState(''); 
 
     async function submitReimbursement() {
-        const response = await axios.post('https://bdx5a9kkg3.execute-api.us-east-1.amazonaws.com/Prod/reimbursements', { "amount": amount, "description": description, "image": image }, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+        try {
+            const response = await axios.post('https://bdx5a9kkg3.execute-api.us-east-1.amazonaws.com/Prod/reimbursements', { "amount": amount, "description": description, "image": image })
+            if (response.status === 201 || response.status === 200) {
+                alert('Reimbursement successfully submitted!');
+                // props.refreshReimbursements();
             }
-        });
-
-        if (response.status === 201) {
-            alert('Reimbursement successfully submitted!');
-            // props.refreshReimbursements();
+            
+        } catch (err: any) {
+            alert(err);
         }
+    }
+
+    const getBase64 = (file:any) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                resolve(reader.result);
+            };
+            reader.onerror = error => {
+                reject(error);
+            }
+        })
+    }
+
+    const handleFileUpload = async (e:any) => {
+        const file = e.target.files[0];
+        const base64 = await getBase64(file);
+        setImage(String(base64));
     }
 
     return (
@@ -29,10 +45,8 @@ function ReimbursementSubmit(/*props: { refreshReimbursements: () => void }*/) {
                 <input onChange={(e) => { setAmount(Number(e.target.value)) }} value={amount} type="number" id="amount" name="amount" />
                 <label htmlFor="description">Description</label>
                 <input onChange={(e) => { setDescription(e.target.value) }} value={description} type="text" id="description" name="description" />
-                <Form.Group controlId="formFile" className="mb-3">
-                    <Form.Label>Default file input example</Form.Label>
-                    <Form.Control type="file" />
-                </Form.Group>
+                <label htmlFor="file">Image</label>
+                <input onChange={ e => { handleFileUpload(e) }} type="file" id="file" name="file"/>
                 <button onClick={submitReimbursement}>Submit</button>
             </form>
         </>
@@ -40,3 +54,13 @@ function ReimbursementSubmit(/*props: { refreshReimbursements: () => void }*/) {
 }
 
 export default ReimbursementSubmit;
+
+{/*{image ? (
+    <img src={image} alt='smiley'/>
+) : ""}
+
+, {
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+}*/}

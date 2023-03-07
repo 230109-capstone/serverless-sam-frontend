@@ -1,7 +1,7 @@
 import Register from './Components/register/register';
-import Login from './Components/Login/Login.'
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import ReimbursementSubmit from './Components/add-reimbursement/add-reimbursement';
+import Login from './Components/Login/Login';
 
 function App() {
     return (
