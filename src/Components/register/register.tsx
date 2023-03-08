@@ -11,7 +11,7 @@ function Register() {
     let navigate = useNavigate();
 
     async function registerSubmit() {
-        const response = await axios.post('someaddressforlambda', {"username": username, "password": password});
+        const response = await axios.post('https://3z3bsyt5aa.execute-api.us-east-1.amazonaws.com/Prod/users', {"username": username, "password": password});
         try{
             if (response.status === 200) {
               alert('Successfully Registered');
@@ -32,8 +32,10 @@ function Register() {
             <p><input className="input" onChange={(e)=> { setPassword((e.target.value)) }} value={password} type="text" name="password" placeholder="Password"/></p>
             <button className="registerbtn" onClick={registerSubmit}>Create Account</button>
         </form>
+
         <Link className="loginLink" to='/'>Already have an account?</Link>
-    </div>
+        </div>
+
         </>
     )
 }
