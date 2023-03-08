@@ -12,7 +12,6 @@ phases:
      - npm run build
   post_build:
     commands:
-     - mv scripts/ build/
      - mv buildspec2.yml build/
 
 artifacts:
