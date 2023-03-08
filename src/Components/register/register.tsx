@@ -15,7 +15,7 @@ function Register() {
         try{
             if (response.status === 200) {
               alert('Successfully Registered');
-              navigate('/login');
+              navigate('/');
           }
         }catch(error) {
             alert(error);
@@ -32,8 +32,10 @@ function Register() {
             <p><input className="input" onChange={(e)=> { setPassword((e.target.value)) }} value={password} type="text" name="password" placeholder="Password"/></p>
             <button className="registerbtn" onClick={registerSubmit}>Create Account</button>
         </form>
+
         <Link className="loginLink" to='/login'>Already have an account?</Link>
         </div>
+
         </>
     )
 }
