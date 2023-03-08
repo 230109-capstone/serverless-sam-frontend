@@ -4,14 +4,27 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import './register.css'
 import { error } from "console";
+import { remoteUrl } from '../../models/URL'
 
 function Register() {
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type'
+        }
+    };
+    const data = {
+        "username": username,
+        "password": password
+    };
     let navigate = useNavigate();
 
     async function registerSubmit() {
-        const response = await axios.post('https://3z3bsyt5aa.execute-api.us-east-1.amazonaws.com/Prod/users', {"username": username, "password": password});
+        const response = await axios.post(remoteUrl + '/users', data, config);
         try{
             if (response.status === 200) {
               alert('Successfully Registered');
