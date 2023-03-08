@@ -11,7 +11,7 @@ function Register() {
     let navigate = useNavigate();
 
     async function registerSubmit() {
-        const response = await axios.post('someaddressforlambda', {"username": username, "password": password});
+        const response = await axios.post('https://bdx5a9kkg3.execute-api.us-east-1.amazonaws.com/Prod/users', {"username": username, "password": password});
         try{
             if (response.status === 200) {
               alert('Successfully Registered');
@@ -33,7 +33,7 @@ function Register() {
             <button className="registerbtn" onClick={registerSubmit}>Create Account</button>
         </form>
         <Link className="loginLink" to='/login'>Already have an account?</Link>
-    </div>
+        </div>
         </>
     )
 }
