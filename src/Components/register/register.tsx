@@ -33,7 +33,7 @@ function Register() {
             <button className="registerbtn" onClick={registerSubmit}>Create Account</button>
         </form>
 
-        <Link className="loginLink" to='/login'>Already have an account?</Link>
+        <Link className="loginLink" to='/'>Already have an account?</Link>
         </div>
 
         </>
