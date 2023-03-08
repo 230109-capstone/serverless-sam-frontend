@@ -1,0 +1,7 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+     - aws s3 rm s3://serverless-frontend-build-project3/ --recursive
+     - aws s3 cp . s3://serverless-frontend-build-project3/ --recursive 
