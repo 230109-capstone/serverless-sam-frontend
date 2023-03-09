@@ -32,7 +32,7 @@ function ViewReimbursements() {
     const fetchTickets = async () =>{
       setFetch({...fetch, loading: true});
       try {
-        const result = await axios.get(`http://3z3bsyt5aa.execute-api.us-east-1.amazonaws.com/Prod/reimbursements`, {headers: {
+        const result = await axios.get(`https://3z3bsyt5aa.execute-api.us-east-1.amazonaws.com/Prod/reimbursements`, {headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }});
         setFetch({loading:false, error: false, message: ""})
