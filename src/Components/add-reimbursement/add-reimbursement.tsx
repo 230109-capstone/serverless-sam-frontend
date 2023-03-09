@@ -48,9 +48,9 @@ function ReimbursementSubmit(/*props: { refreshReimbursements: () => void }*/) {
         <>
             <form onSubmit={(event) => { event.preventDefault() }}>
                 <label htmlFor="amount">Amount</label>
-                <input onChange={(e) => { setAmount(Number(e.target.value)) }} value={amount} type="number" id="amount" name="amount" />
+                <input onChange={(e) => { setAmount(Number(e.target.value)) }} value={amount} type="number" id="amount" name="amount" placeholder="Amount" />
                 <label htmlFor="description">Description</label>
-                <input onChange={(e) => { setDescription(e.target.value) }} value={description} type="text" id="description" name="description" />
+                <input onChange={(e) => { setDescription(e.target.value) }} value={description} type="text" id="description" name="description" placeholder="Description"/>
                 <label htmlFor="file">Image</label>
                 <input onChange={ e => { handleFileUpload(e) }} type="file" id="file" name="file"/>
                 <button onClick={submitReimbursement}>Submit</button>
