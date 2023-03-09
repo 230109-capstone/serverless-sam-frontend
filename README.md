@@ -1,6 +1,15 @@
-# Getting Started with Create React App
+# Startup
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+# Employee Reimbursement System
+
+## Capstone Project Frontend
+
+### Description
+- The frontend for the project is a react application built using Typescript as the primary language and uses react-redux to store information about the user so that their is easy access for authentication in each of the components. As well as storing information about reimbursements in the store. This application also makes use of axios to make requests to the API Gateway.
+
+- The application is made up of multiple functional components that allow for users to register, login, view reimbursements, add reimbursements, and approve/deny reimbursements. Use browser-router to navigate to different components of application. Also used react testing to test component mounting, events, and react functions.
 
 ## Available Scripts
 
