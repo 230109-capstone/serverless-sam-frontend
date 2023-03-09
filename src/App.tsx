@@ -6,16 +6,14 @@ import Login from './Components/Login/Login';
 
 function App() {
     return (
-        <>
-            <BrowserRouter>
-                <Routes>
-                    <Route path='/' element={<Login/>}/>
-                    <Route path='/register' element={<Register/>}/>
-                    <Route path='/view-reimbursements' element={<ViewReimbursements />} />
-                    <Route path='/reimbursements' element={<ReimbursementSubmit/>}/>
-                </Routes>
-            </BrowserRouter>
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route path='/' element={<Login/>}/>
+                <Route path='/register' element={<Register/>}/>
+                <Route path='/view-reimbursements' element={<ViewReimbursements />} />
+                <Route path='/reimbursements' element={<ReimbursementSubmit/>}/>
+            </Routes>
+        </BrowserRouter>
     );
 }
 
