@@ -9,7 +9,12 @@ function ReimbursementSubmit(/*props: { refreshReimbursements: () => void }*/) {
 
     async function submitReimbursement() {
         try {
-            const response = await axios.post(remoteUrl + '/reimbursements', { "amount": amount, "description": description, "image": image })
+            const response = await axios.post(remoteUrl + '/reimbursements', { "amount": amount, "description": description, "image": image }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            
             if (response.status === 201 || response.status === 200) {
                 alert('Reimbursement successfully submitted!');
                 // props.refreshReimbursements();
