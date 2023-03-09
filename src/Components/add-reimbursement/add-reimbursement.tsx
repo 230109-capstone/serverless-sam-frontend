@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { remoteUrl } from '../../models/URL';
 
 function ReimbursementSubmit(/*props: { refreshReimbursements: () => void }*/) {
     const [amount, setAmount] = useState(0);
@@ -8,7 +9,7 @@ function ReimbursementSubmit(/*props: { refreshReimbursements: () => void }*/) {
 
     async function submitReimbursement() {
         try {
-            const response = await axios.post('https://bdx5a9kkg3.execute-api.us-east-1.amazonaws.com/Prod/reimbursements', { "amount": amount, "description": description, "image": image })
+            const response = await axios.post(remoteUrl + '/reimbursements', { "amount": amount, "description": description, "image": image })
             if (response.status === 201 || response.status === 200) {
                 alert('Reimbursement successfully submitted!');
                 // props.refreshReimbursements();
