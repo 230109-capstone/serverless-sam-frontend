@@ -81,7 +81,7 @@ function ViewReimbursements() {
             filteredTickets.map(ticket => (
               <Col key={ticket.id}>
                 <Card style={{ width: '18rem' }} >
-                  <Card.Img variant="top" src={'s3bucketlink'} alt={ticket.status}/>
+                  <Card.Img variant="top" src={ticket.imageUrl} alt={ticket.status}/>
                   <Card.Body>
                     <Card.Text>{ticket.description}</Card.Text>
                   </Card.Body>
