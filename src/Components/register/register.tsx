@@ -18,7 +18,6 @@ function Register() {
        
             try { 
                 const response = await axios.post(remoteUrl + '/users', data);
-                console.log(response);
                 if (response.status === 200) {
                     alert(response.data.message);
                     navigate('/');
@@ -26,8 +25,12 @@ function Register() {
                     alert(response.data.message);
                 }
             } catch(error: any) {
-                alert(error.response.data.errors);
-            };
+                if (error.response && error.response.data) {
+                    alert(error.response.data.errors);
+                  } else {
+                    alert('An error occurred');
+                  }
+                }
         }
     
 
