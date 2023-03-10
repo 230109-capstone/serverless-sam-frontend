@@ -15,7 +15,6 @@ function Register() {
     let navigate = useNavigate();
 
     async function registerSubmit() {
-       
             try { 
                 const response = await axios.post(remoteUrl + '/users', data);
                 if (response.status === 200) {

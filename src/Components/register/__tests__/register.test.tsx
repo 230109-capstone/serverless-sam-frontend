@@ -102,7 +102,7 @@ test("Password Input Change", async () =>{
     expect(input.value).toBe('password!');
 });
 
-test('Redirects to login page after successful registration', async () => {
+test('Redirects to login page after registration', async () => {
     act(() => {
         let element = render(<MemoryRouter><Register/></MemoryRouter>, container);
     });
