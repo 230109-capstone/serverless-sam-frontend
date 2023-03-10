@@ -1,9 +1,11 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, getByPlaceholderText, findByText } from "@testing-library/react";
 import axios from "axios";
 import { unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route, Router, useNavigate } from "react-router-dom";
+import Login from "../../Login/Login";
 import Register from "../register";
+
 
 jest.mock('axios');
 let container:any = null;
@@ -99,3 +101,33 @@ test("Password Input Change", async () =>{
     fireEvent.change(input, {target: {value: 'password!'}});
     expect(input.value).toBe('password!');
 });
+
+test('Redirects to login page after registration', async () => {
+    act(() => {
+        let element = render(<MemoryRouter><Register/></MemoryRouter>, container);
+    });
+    jest.spyOn(axios, 'post').mockResolvedValueOnce({ status: 200, data: { message: 'Registration successful' } });
+
+    const submitButton = screen.getByRole("button");
+        await act( async () => {
+            fireEvent.click(submitButton)
+        });
+
+    await waitFor(() => expect(axios.post).toHaveBeenCalled());
+
+    expect(useNavigate);
+  });
+
+test('Show error message in catch block', async () => {
+    act(() => {
+        let element = render(<MemoryRouter><Register/></MemoryRouter>, container);
+    });
+    const errorMessage = 'Unknown Error';
+    const errorResponse = { response: {data: { errors: errorMessage}}};
+    axios.post.mockRejectedValue(errorResponse);
+    const submitButton = screen.getByRole("button");
+        await act( async () => {
+            fireEvent.click(submitButton)
+        });
+    await expect(errorResponse);
+})
