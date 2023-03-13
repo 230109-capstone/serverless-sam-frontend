@@ -24,7 +24,7 @@ export const registerUser = createAsyncThunk(
     "register",
     async (user: User, thunkAPI) => {
         try {
-            const res = await axios.post(`${remoteUrl}/users`, user);
+            const res = await axios.post(`${remoteUrl}/register`, user);
             return res.data;
         } catch (e) {
             return thunkAPI.rejectWithValue('Email Already Exist');
@@ -36,12 +36,13 @@ export const login = createAsyncThunk(
     'login',
     async (user: LoginUser, thunkAPI) => {
         try {
-            const res = await axios.post(`${remoteUrl}/users/login`, user, {
+            const res = await axios.post(`${remoteUrl}/login`, user, {
                 headers: {
                   'Access-Control-Allow-Origin': '*',
                   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',                  
                 },
             });
+            console.log('success')
             localStorage.setItem("token", res.data["token"]);
             return res.data;
         } catch (e) {
