@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { remoteUrl } from '../../models/URL';
+import { useNavigate } from 'react-router';
 
-function ReimbursementSubmit(/*props: { refreshReimbursements: () => void }*/) {
-    const [amount, setAmount] = useState(0);
+function ReimbursementSubmit() {
+    const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(''); 
+    const aRef = useRef(null);
+    const navigate = useNavigate();
 
-    async function submitReimbursement() {
+    async function submitReimbursement(e:any) {
         try {
             const response = await axios.post(remoteUrl + '/reimbursements', { "amount": amount, "description": description, "image": image }, {
                 headers: {
@@ -17,7 +20,10 @@ function ReimbursementSubmit(/*props: { refreshReimbursements: () => void }*/) {
             
             if (response.status === 201 || response.status === 200) {
                 alert('Reimbursement successfully submitted!');
-                // props.refreshReimbursements();
+                setAmount('');
+                setDescription('');
+                removeFile(aRef);
+                setImage('');
             }
             
         } catch (err: any) {
@@ -44,29 +50,30 @@ function ReimbursementSubmit(/*props: { refreshReimbursements: () => void }*/) {
         setImage(String(base64));
     }
 
+    function removeFile(aRef:any) {
+        aRef.current.value = null;
+    }
+
+    function goToViewPage() {  
+        return navigate("/view-reimbursements");
+    }
+
     return (
         <>
             <form onSubmit={(event) => { event.preventDefault() }}>
                 <label htmlFor="amount">Amount</label>
-                <input onChange={(e) => { setAmount(Number(e.target.value)) }} value={amount} type="number" id="amount" name="amount" placeholder="Amount" />
+                <input onChange={(e) => { setAmount(e.target.value) }} value={amount} type="text" id="amount" name="amount" placeholder="Amount" /><br /><br />
                 <label htmlFor="description">Description</label>
-                <input onChange={(e) => { setDescription(e.target.value) }} value={description} type="text" id="description" name="description" placeholder="Description"/>
+                <input onChange={(e) => { setDescription(e.target.value) }} value={description} type="text" id="description" name="description" placeholder="Description"/><br /><br />
                 <label htmlFor="file">Image</label>
-                <input onChange={ e => { handleFileUpload(e) }} type="file" id="file" name="file"/>
-                <button onClick={submitReimbursement}>Submit</button>
+                <input onChange={ e => { handleFileUpload(e) }} ref={aRef} type="file" id="file" name="file"/><br /><br />
+                <button onClick={submitReimbursement}>Submit</button><button onClick={() => { goToViewPage() }}>View Reimbursements</button>
             </form>
+            {image ? (<img src={image} alt='receipt'/>) : ""}
         </>
     )
 }
 
 export default ReimbursementSubmit;
 
-{/*{image ? (
-    <img src={image} alt='smiley'/>
-) : ""}
 
-, {
-    headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-    }
-}*/}
