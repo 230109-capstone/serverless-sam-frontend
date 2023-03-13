@@ -31,13 +31,13 @@ function Login() {
 
         dispatch(login(user))
             .then(() => {
-                navigate('/home')
+                navigate('/view-reimbursements')
             })
     }
 
     useEffect(() => {
         if (userState.isLoggedIn) {
-            navigate('/home')
+            navigate('/view-reimbursements')
         }
     }, [userState.isLoggedIn])
 
@@ -57,8 +57,6 @@ function Login() {
 
             <input type="submit" id="loginBtn" value="Log In"/>
             <Link className="registerLink" to='/register'>Don't have an account?</Link>
-
-
         </form>
     )
 }
