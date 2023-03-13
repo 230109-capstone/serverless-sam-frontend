@@ -24,7 +24,7 @@ export const registerUser = createAsyncThunk(
     "register",
     async (user: User, thunkAPI) => {
         try {
-            const res = await axios.post(`${remoteUrl}/register`, user);
+            const res = await axios.post(`${remoteUrl}/users`, user);
             return res.data;
         } catch (e) {
             return thunkAPI.rejectWithValue('Email Already Exist');
