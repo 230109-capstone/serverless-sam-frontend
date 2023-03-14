@@ -12,6 +12,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { AuthState } from "../../models/AuthState";
 import { remoteUrl } from "../../models/URL";
+import { Reimbursement } from "../../models/Reimbursement";
 
 interface ErrorType {
   loading: boolean,
@@ -60,52 +61,58 @@ function ViewReimbursements() {
       setFilter(event.currentTarget.value);
    }
 
+    const approveReimbursement = (ticket: Reimbursement) => {
+        console.log("Approve", ticket);
+    }
+
+    const denyReimbursement = (ticket: Reimbursement) => {
+        console.log("Deny", ticket);
+    }
 
 
-  return (
-    <Container fluid>
-      {
-        fetch.loading ? <h1>Loading</h1> :
-        fetch.error ? <h1>{fetch.message}</h1> :
-        <>
-        <Container>
-          <DropdownButton id="dropdown-item-button" title="Filter">
-              <Dropdown.Item as="button" onClick={handleFilter} value='pending'>Pending</Dropdown.Item>
-              <Dropdown.Item as="button" onClick={handleFilter} value='approved'>Approved</Dropdown.Item>
-              <Dropdown.Item as="button" onClick={handleFilter} value='denied'>Denied</Dropdown.Item>
-          </DropdownButton>
-        </Container>
-        <Row style={{ minWidth: "50vw" }}>
-          {
-            filteredTickets.map(ticket => (
-              <Col key={ticket.id}>
-                <Card style={{ width: '18rem' }} >
-                  <Card.Img variant="top" src={ticket.imageUrl} alt={ticket.status}/>
-                  <Card.Body>
-                    <Card.Text>{ticket.description}</Card.Text>
-                  </Card.Body>
-                  <ListGroup className="list-group-flush">
-                    <ListGroup.Item>{`$${ticket.amount}`}</ListGroup.Item>
-                    <ListGroup.Item>{ticket.status}</ListGroup.Item>
-                    <ListGroup.Item>{ticket.submitter}</ListGroup.Item>
-                  </ListGroup>
-                  {
-                    user.user.role === 'finance_manager' && ticket.status === 'pending' ? 
+    return (
+        <Container fluid>
+        {fetch.loading ? <h1>Loading</h1> 
+        : fetch.error ? <h1>{fetch.message}</h1> 
+        : <>
+            <Container>
+            <DropdownButton id="dropdown-item-button" title="Filter">
+                <Dropdown.Item as="button" onClick={handleFilter} value='pending'>Pending</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={handleFilter} value='approved'>Approved</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={handleFilter} value='denied'>Denied</Dropdown.Item>
+            </DropdownButton>
+            </Container>
+            <Row style={{ minWidth: "50vw" }}>
+            {
+                filteredTickets.map(ticket => (
+                <Col key={ticket.id}>
+                    <Card style={{ width: '18rem' }} >
+                    <Card.Img variant="top" src={ticket.imageUrl} alt={ticket.status}/>
                     <Card.Body>
-                      <Button variant='success' >Approve</Button>
-                      <Button variant='danger'>Deny</Button>
-                    </Card.Body> :
-                    <></>
-                  }
-                </Card>
-              </Col>
-            ))
-          }
-        </Row>
-        </>
-      }
-    </Container>
-  )
+                        <Card.Text>{ticket.description}</Card.Text>
+                    </Card.Body>
+                    <ListGroup className="list-group-flush">
+                        <ListGroup.Item>{`$${ticket.amount}`}</ListGroup.Item>
+                        <ListGroup.Item>{ticket.status}</ListGroup.Item>
+                        <ListGroup.Item>{ticket.submitter}</ListGroup.Item>
+                    </ListGroup>
+                    {
+                        user.user.role === 'finance_manager' && ticket.status === 'pending' ? 
+                            <Card.Body>
+                                <Button variant='success' onClick={() => approveReimbursement(ticket)}>Approve</Button>
+                                <Button variant='danger' onClick={() => denyReimbursement(ticket)}>Deny</Button>
+                            </Card.Body> :
+                            <></>
+                    }
+                    </Card>
+                </Col>
+                ))
+            }
+            </Row>
+            </>
+        }
+        </Container>
+    )
 }
 
 export default ViewReimbursements
