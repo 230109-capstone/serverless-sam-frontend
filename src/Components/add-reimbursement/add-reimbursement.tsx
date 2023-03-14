@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { remoteUrl } from '../../models/URL';
 import { useNavigate } from 'react-router';
+import './add-reimbursement.css'
 
 function ReimbursementSubmit() {
     const [amount, setAmount] = useState('');
@@ -60,7 +61,8 @@ function ReimbursementSubmit() {
 
     return (
         <>
-            <form onSubmit={(event) => { event.preventDefault() }}>
+            <form id="addReimbursementsForm" onSubmit={(event) => { event.preventDefault() }}>
+                <h1>Reimbursements Form</h1>
                 <label htmlFor="amount">Amount</label>
                 <input onChange={(e) => { setAmount(e.target.value) }} value={amount} type="text" id="amount" name="amount" placeholder="Amount" /><br /><br />
                 <label htmlFor="description">Description</label>
