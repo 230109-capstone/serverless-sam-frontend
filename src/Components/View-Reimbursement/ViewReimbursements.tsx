@@ -11,6 +11,7 @@ import { RootState } from '../../redux/Store'
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { AuthState } from "../../models/AuthState";
+import { remoteUrl } from "../../models/URL";
 
 interface ErrorType {
   loading: boolean,
@@ -25,26 +26,26 @@ function ViewReimbursements() {
   const [filter, setFilter] = useState<string> ('');
   const user: AuthState = useSelector((state: RootState) => state.user)
 
-  useEffect(() => {
     const fetchTickets = async () =>{
-      setFetch({...fetch, loading: true});
-      try {
-        const result = await axios.get(`https://3z3bsyt5aa.execute-api.us-east-1.amazonaws.com/Prod/reimbursements`, {headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+        setFetch({...fetch, loading: true});
+        try {
+        const result = await axios.get(`${remoteUrl}/reimbursements`, {headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
         }});
         setFetch({loading:false, error: false, message: ""})
         setTickets(result.data.data)
 
-      } catch (err: any) {
+        } catch (err: any) {
         if(err.response){
-          setFetch({error:true, message:err.response.data.message, loading:false})
+            setFetch({error:true, message:err.response.data.message, loading:false})
         }
-      }
+        }
     }
-  
-    fetchTickets(); 
-    console.log(user.user.role);
-  }, [])
+
+    useEffect(() => {
+        fetchTickets(); 
+        console.log(user.user.role);
+    }, [])
   
 
    const filteredTickets = useMemo(() => {
