@@ -31,7 +31,12 @@ function ReimbursementSubmit() {
             }
             
         } catch (err: any) {
-            alert(err);
+            if (err.response.data.message === 'tarHeaderChecksumMatches is not defined') {
+                alert('Please upload a jpeg or png version of your receipt instead.');
+                removeFile(aRef);
+                setImage('');
+            }
+            console.log(err);
         }
     }
 
@@ -77,10 +82,9 @@ function ReimbursementSubmit() {
                 <label htmlFor="description">Description</label>
                 <input onChange={(e) => { setDescription(e.target.value) }} value={description} type="text" id="description" name="description" placeholder="Description"/><br /><br />
                 <label htmlFor="file">Image</label>
-                <input onChange={ e => { handleFileUpload(e) }} ref={aRef} type="file" id="file" name="file"/><br /><br />
+                <input onChange={ e => { handleFileUpload(e) }} ref={aRef} type="file" id="file" name="file" accept="image/png, image/jpeg"/>{image ? (<img src={image} alt='receipt'/>) : ""}<br /><br />
                 <button onClick={submitReimbursement}>Submit</button><button onClick={() => { goToViewPage() }}>View Reimbursements</button>
             </form>
-            {image ? (<img src={image} alt='receipt'/>) : ""}
         </>
     )
 }
