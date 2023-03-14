@@ -6,13 +6,14 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/Store'
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/Store'
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { AuthState } from "../../models/AuthState";
 import { remoteUrl } from "../../models/URL";
 import { Reimbursement, Status } from "../../models/Reimbursement";
+import { updateReimbursement } from "../../redux/slices/reimbursementSlice";
 
 interface ErrorType {
   loading: boolean,
@@ -23,9 +24,10 @@ interface ErrorType {
 function ViewReimbursements() {
 
   const [tickets, setTickets] = useState<any[]>([]);
-  const [fetch, setFetch] = useState<ErrorType>({loading: true, error: false, message: ''})
+  const [fetch, setFetch] = useState<ErrorType>({loading: true, error: false, message: ''});
   const [filter, setFilter] = useState<string> ('');
-  const user: AuthState = useSelector((state: RootState) => state.user)
+  const user: AuthState = useSelector((state: RootState) => state.user);
+  const dispatch: AppDispatch = useDispatch();
 
     const fetchTickets = async () =>{
         setFetch({...fetch, loading: true});
@@ -46,7 +48,7 @@ function ViewReimbursements() {
     useEffect(() => {
         fetchTickets(); 
         console.log(user.user.role);
-    }, [])
+    }, [tickets])
   
 
    const filteredTickets = useMemo(() => {
@@ -64,11 +66,13 @@ function ViewReimbursements() {
     const approveReimbursement = (ticket: Reimbursement) => {
         ticket.status = Status.APPROVED;
         console.log("Approve", ticket);
+        dispatch(updateReimbursement(ticket));
     }
 
     const denyReimbursement = (ticket: Reimbursement) => {
         ticket.status = Status.DENIED;
         console.log("Deny", ticket);
+        dispatch(updateReimbursement(ticket));
     }
 
 
@@ -99,7 +103,7 @@ function ViewReimbursements() {
                         <ListGroup.Item>{ticket.submitter}</ListGroup.Item>
                     </ListGroup>
                     {
-                        user.user.role === 'finance_manager' && ticket.status == Status.PENDING ? 
+                        user.user.role === 'finance_manager' && ticket.status === Status.PENDING ? 
                             <Card.Body>
                                 <Button variant='success' onClick={() => approveReimbursement(ticket)}>Approve</Button>
                                 <Button variant='danger' onClick={() => denyReimbursement(ticket)}>Deny</Button>
