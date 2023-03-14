@@ -99,7 +99,7 @@ function ViewReimbursements() {
                         <ListGroup.Item>{ticket.submitter}</ListGroup.Item>
                     </ListGroup>
                     {
-                        user.user.role === 'finance_manager' && ticket.status === Status.PENDING ? 
+                        user.user.role === 'finance_manager' && ticket.status == Status.PENDING ? 
                             <Card.Body>
                                 <Button variant='success' onClick={() => approveReimbursement(ticket)}>Approve</Button>
                                 <Button variant='danger' onClick={() => denyReimbursement(ticket)}>Deny</Button>
