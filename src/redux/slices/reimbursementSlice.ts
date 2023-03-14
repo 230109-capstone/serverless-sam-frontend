@@ -33,7 +33,9 @@ export const updateReimbursement = createAsyncThunk(
     'update reimbursement',
     async (reimbursement: Reimbursement, thunkAPI) => {
         try {
-            const res = await axios.patch(`${remoteUrl}/reimbursements`, reimbursement);
+            const res = await axios.patch(`${remoteUrl}/reimbursements`, reimbursement, {headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }});
             console.log(res.data);
             return res.data;
         } catch (e) {
