@@ -44,6 +44,7 @@ export const login = createAsyncThunk(
             });
             console.log('success')
             localStorage.setItem("token", res.data["token"]);
+            console.log(res.data);
             return res.data;
         } catch (e) {
             return thunkAPI.rejectWithValue('Incorrect username or password');

@@ -4,8 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../redux/slices/userSlice";
 import {AppDispatch, RootState} from "../../redux/Store";
 import {LoginUser} from "../../models/User";
-import {Link} from "react-router-dom";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function Login() {
     const [username, setUsername] = useState<string>("");
