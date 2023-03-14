@@ -12,7 +12,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { AuthState } from "../../models/AuthState";
 import { remoteUrl } from "../../models/URL";
-import { Reimbursement } from "../../models/Reimbursement";
+import { Reimbursement, Status } from "../../models/Reimbursement";
 
 interface ErrorType {
   loading: boolean,
@@ -62,10 +62,12 @@ function ViewReimbursements() {
    }
 
     const approveReimbursement = (ticket: Reimbursement) => {
+        ticket.status = Status.APPROVED;
         console.log("Approve", ticket);
     }
 
     const denyReimbursement = (ticket: Reimbursement) => {
+        ticket.status = Status.DENIED;
         console.log("Deny", ticket);
     }
 
@@ -97,7 +99,7 @@ function ViewReimbursements() {
                         <ListGroup.Item>{ticket.submitter}</ListGroup.Item>
                     </ListGroup>
                     {
-                        user.user.role === 'finance_manager' && ticket.status === 'pending' ? 
+                        user.user.role === 'finance_manager' && ticket.status === Status.PENDING ? 
                             <Card.Body>
                                 <Button variant='success' onClick={() => approveReimbursement(ticket)}>Approve</Button>
                                 <Button variant='danger' onClick={() => denyReimbursement(ticket)}>Deny</Button>
