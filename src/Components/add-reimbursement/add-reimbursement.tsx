@@ -19,7 +19,7 @@ function ReimbursementSubmit() {
             });
             
             if (response.status === 201 || response.status === 200) {
-                alert('Reimbursement successfully submitted!');
+                alert(response.data.message);
                 setAmount('');
                 setDescription('');
                 removeFile(aRef);
