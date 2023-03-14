@@ -87,9 +87,9 @@ function ViewReimbursements() {
         : <>
             <Container>
             <DropdownButton id="dropdown-item-button" title="Filter">
-                <Dropdown.Item as="button" onClick={handleFilter} value='pending'>Pending</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={handleFilter} value='approved'>Approved</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={handleFilter} value='denied'>Denied</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={handleFilter} value='PENDING'>Pending</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={handleFilter} value='APPROVED'>Approved</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={handleFilter} value='DENIED'>Denied</Dropdown.Item>
             </DropdownButton>
             </Container>
             <Row style={{ minWidth: "50vw" }}>
