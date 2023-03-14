@@ -86,6 +86,7 @@ function ViewReimbursements() {
         : fetch.error ? <h1>{fetch.message}</h1> 
         : <>
             <Container>
+                <button onClick={() => { navigate('/reimbursements') }}>Create Reimbursement</button>
             <DropdownButton id="dropdown-item-button" title="Filter">
                 <Dropdown.Item as="button" onClick={handleFilter} value='PENDING'>Pending</Dropdown.Item>
                 <Dropdown.Item as="button" onClick={handleFilter} value='APPROVED'>Approved</Dropdown.Item>

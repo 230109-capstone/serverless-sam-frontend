@@ -1,0 +1,14 @@
+#addReimbursementsForm {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-flow: column;
+    max-width: 40%;
+    min-height: 550px;
+    padding: 45px 45px 75px;
+    justify-content: center;
+    box-sizing: border-box;
+    line-height: 1.2;
+    margin: auto auto 15px;
+    border-radius: 10px;
+    border: 2px black solid; 
+}
