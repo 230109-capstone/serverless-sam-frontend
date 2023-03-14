@@ -1,8 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { remoteUrl } from '../../models/URL';
 import { useNavigate } from 'react-router';
 import './add-reimbursement.css'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/Store';
 
 function ReimbursementSubmit() {
     const [amount, setAmount] = useState('');
@@ -10,6 +12,7 @@ function ReimbursementSubmit() {
     const [image, setImage] = useState(''); 
     const aRef = useRef(null);
     const navigate = useNavigate();
+    const userState = useSelector((state: RootState) => state.user)
 
     async function submitReimbursement(e:any) {
         try {
@@ -58,6 +61,12 @@ function ReimbursementSubmit() {
     function goToViewPage() {  
         return navigate("/view-reimbursements");
     }
+
+    useEffect(() => {
+        if (!userState.isLoggedIn) {
+            navigate('/')
+        }
+    }, [userState.isLoggedIn])
 
     return (
         <>
