@@ -14,6 +14,7 @@ import { AuthState } from "../../models/AuthState";
 import { remoteUrl } from "../../models/URL";
 import { Reimbursement, Status } from "../../models/Reimbursement";
 import { updateReimbursement } from "../../redux/slices/reimbursementSlice";
+import { useNavigate } from "react-router";
 
 interface ErrorType {
   loading: boolean,
@@ -28,6 +29,7 @@ function ViewReimbursements() {
   const [filter, setFilter] = useState<string> ('');
   const user: AuthState = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
     const fetchTickets = async () =>{
         setFetch({...fetch, loading: true});
@@ -48,7 +50,7 @@ function ViewReimbursements() {
     useEffect(() => {
         fetchTickets(); 
         console.log(user.user.role);
-    }, [tickets])
+    }, []);
   
 
    const filteredTickets = useMemo(() => {
@@ -67,12 +69,14 @@ function ViewReimbursements() {
         ticket.status = Status.APPROVED;
         console.log("Approve", ticket);
         dispatch(updateReimbursement(ticket));
+        navigate("/view-reimbursements");
     }
 
     const denyReimbursement = (ticket: Reimbursement) => {
         ticket.status = Status.DENIED;
         console.log("Deny", ticket);
         dispatch(updateReimbursement(ticket));
+        navigate("/view-reimbursements");
     }
 
 

@@ -33,12 +33,7 @@ export const updateReimbursement = createAsyncThunk(
     'update reimbursement',
     async (reimbursement: Reimbursement, thunkAPI) => {
         try {
-            const res = await axios.patch(`${remoteUrl}/reimbursements/update`, reimbursement, {
-                headers: {
-                  'Access-Control-Allow-Origin': '*',
-                  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH',                  
-                },
-            });
+            const res = await axios.patch(`${remoteUrl}/reimbursements`, reimbursement);
             console.log(res.data);
             return res.data;
         } catch (e) {
