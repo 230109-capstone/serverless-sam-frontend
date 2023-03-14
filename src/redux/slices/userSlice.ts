@@ -36,12 +36,7 @@ export const login = createAsyncThunk(
     'login',
     async (user: LoginUser, thunkAPI) => {
         try {
-            const res = await axios.post(`${remoteUrl}/login`, user, {
-                headers: {
-                  'Access-Control-Allow-Origin': '*',
-                  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',                  
-                },
-            });
+            const res = await axios.post(`${remoteUrl}/login`, user);
             console.log('success')
             localStorage.setItem("token", res.data["token"]);
             console.log(res.data);
