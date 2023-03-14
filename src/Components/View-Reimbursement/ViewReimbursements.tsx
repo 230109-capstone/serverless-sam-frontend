@@ -10,9 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/Store'
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-
-
-
+import { AuthState } from "../../models/AuthState";
 
 interface ErrorType {
   loading: boolean,
@@ -20,13 +18,12 @@ interface ErrorType {
   message: string
 }
 
-
 function ViewReimbursements() {
 
   const [tickets, setTickets] = useState<any[]>([]);
   const [fetch, setFetch] = useState<ErrorType>({loading: true, error: false, message: ''})
-  const [filter, setFilter] = useState<String> ('');
-  const { user: User } = useSelector((state: RootState) => state.user)
+  const [filter, setFilter] = useState<string> ('');
+  const user: AuthState = useSelector((state: RootState) => state.user)
 
   useEffect(() => {
     const fetchTickets = async () =>{
@@ -46,6 +43,7 @@ function ViewReimbursements() {
     }
   
     fetchTickets(); 
+    console.log(user.user.role);
   }, [])
   
 
@@ -91,7 +89,7 @@ function ViewReimbursements() {
                     <ListGroup.Item>{ticket.submitter}</ListGroup.Item>
                   </ListGroup>
                   {
-                    User.role === 'finance_manager' && ticket.status === 'pending' ? 
+                    user.user.role === 'finance_manager' && ticket.status === 'pending' ? 
                     <Card.Body>
                       <Button variant='success' >Approve</Button>
                       <Button variant='danger'>Deny</Button>
