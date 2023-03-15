@@ -10,34 +10,49 @@ function ReimbursementSubmit() {
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(''); 
+    const [imageError, setImageError] = useState<boolean>(false)
     const aRef = useRef(null);
     const navigate = useNavigate();
     const userState = useSelector((state: RootState) => state.user)
 
     async function submitReimbursement(e:any) {
-        try {
-            const response = await axios.post(remoteUrl + '/reimbursements', { "amount": amount, "description": description, "image": image }, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+        if(image === ""){
+            setImageError(true)
+            return
+        } else if (!localStorage.getItem('token')) {
+            try {
+                await axios.post(remoteUrl + '/reimbursements', { "amount": amount, "description": description, "image": image }, {});
+            } catch (err:any) {
+                alert(err.response.data.message.message);
+            }
+        } else if (localStorage.getItem('token') !== null) {
+            try {
+                const response = await axios.post(remoteUrl + '/reimbursements', { "amount": amount, "description": description, "image": image }, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                
+                if (response.status === 201 || response.status === 200) {
+                        alert(response.data.message);
+                        setAmount('');
+                        setDescription('');
+                        removeFile(aRef);
+                        setImage('');
+                        setImageError(false);
                 }
-            });
-            
-            if (response.status === 201 || response.status === 200) {
-                alert(response.data.message);
-                setAmount('');
-                setDescription('');
-                removeFile(aRef);
-                setImage('');
+            } catch (err: any) {
+                if (err.response.data.message === 'tarHeaderChecksumMatches is not defined') {
+                    alert('Please upload a jpeg or png version of your receipt instead.');
+                    removeFile(aRef);
+                    setImage('');
+                } else if (err.response.data.message.errors) {
+                    alert(err.response.data.message.errors);
+                } else {
+                    alert(err);
+                }
             }
-            
-        } catch (err: any) {
-            if (err.response.data.message === 'tarHeaderChecksumMatches is not defined') {
-                alert('Please upload a jpeg or png version of your receipt instead.');
-                removeFile(aRef);
-                setImage('');
-            }
-            console.log(err);
-        }
+        } 
     }
 
     const getBase64 = (file:any) => {
@@ -77,6 +92,7 @@ function ReimbursementSubmit() {
         <>
             <form id="addReimbursementsForm" onSubmit={(event) => { event.preventDefault() }}>
                 <h1>Reimbursements Form</h1>
+                {imageError ? <p className='missingImage' id={"error"}>Please provide an image</p> : ""}
                 <label htmlFor="amount">Amount</label>
                 <input onChange={(e) => { setAmount(e.target.value) }} value={amount} type="text" id="amount" name="amount" placeholder="Amount" /><br /><br />
                 <label htmlFor="description">Description</label>
@@ -90,5 +106,4 @@ function ReimbursementSubmit() {
 }
 
 export default ReimbursementSubmit;
-
 

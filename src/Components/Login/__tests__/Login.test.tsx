@@ -11,7 +11,7 @@ describe("Test HTML Component", () => {
     it("Username input should exist", () => {
         render(<BrowserRouter>
             <Provider store={store}>
-                <Login/>)
+                <Login/>
             </Provider>
         </BrowserRouter>)
 
@@ -23,7 +23,7 @@ describe("Test HTML Component", () => {
     it("Password input should exist", () => {
         render(<BrowserRouter>
             <Provider store={store}>
-                <Login/>)
+                <Login/>
             </Provider>
         </BrowserRouter>)
 
@@ -34,7 +34,7 @@ describe("Test HTML Component", () => {
     it("submit button should exist", () => {
         render(<BrowserRouter>
             <Provider store={store}>
-                <Login/>)
+                <Login/>
             </Provider>
         </BrowserRouter>)
 
@@ -48,7 +48,7 @@ describe("Tests form submission", () => {
     test('Username can input a username and password', () => {
         render(<BrowserRouter>
             <Provider store={store}>
-                <Login/>)
+                <Login/>
             </Provider>
         </BrowserRouter>)
         const usernameInput: HTMLFormElement = screen.getByPlaceholderText("username")
