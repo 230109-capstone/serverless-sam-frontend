@@ -12,3 +12,7 @@
     border-radius: 10px;
     border: 2px black solid; 
 }
+
+.missingImage {
+    color: red;
+}
