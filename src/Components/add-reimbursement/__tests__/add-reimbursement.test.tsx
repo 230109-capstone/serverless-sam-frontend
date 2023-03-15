@@ -250,4 +250,20 @@ describe('ReimbursementSubmit', () => {
         });
     await expect(errorResponse);    
   });
+
+  test('file turned to base64', ()=>{
+    let element =
+        render(
+        <Provider store={store}>
+            <MemoryRouter>
+                <ReimbursementSubmit />
+            </MemoryRouter>
+        </Provider>, container);
+
+    const submitButton = screen.getByLabelText('Image');
+    //fireEvent.change(submitButton, {target: {value: 'test.png'}} )
+    const file = new File(['(⌐□_□)'], 'file.png', { type: 'image/png' });
+    fireEvent.change(submitButton, { target: { files: [file] } });
+    expect(submitButton.files[0]).toStrictEqual(file);
+  });
 })
