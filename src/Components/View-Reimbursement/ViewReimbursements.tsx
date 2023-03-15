@@ -87,6 +87,7 @@ function ViewReimbursements() {
         : <>
             <Container>
                 <button onClick={() => { navigate('/reimbursements') }}>Create Reimbursement</button>
+                <button onClick={() => { dispatch(logoutUser()).then(() => navigate("/")) }}>Logout</button>
             <DropdownButton id="dropdown-item-button" title="Filter">
                 <Dropdown.Item as="button" onClick={handleFilter} value='PENDING'>Pending</Dropdown.Item>
                 <Dropdown.Item as="button" onClick={handleFilter} value='APPROVED'>Approved</Dropdown.Item>
