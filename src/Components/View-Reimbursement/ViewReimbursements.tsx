@@ -15,6 +15,7 @@ import { remoteUrl } from "../../models/URL";
 import { Reimbursement, Status } from "../../models/Reimbursement";
 import { updateReimbursement } from "../../redux/slices/reimbursementSlice";
 import { useNavigate } from "react-router";
+import { logoutUser } from "../../redux/slices/userSlice";
 
 interface ErrorType {
   loading: boolean,
