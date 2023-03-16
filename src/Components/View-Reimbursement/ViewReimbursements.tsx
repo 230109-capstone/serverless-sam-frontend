@@ -1,21 +1,14 @@
-import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import React, { useEffect, useMemo, useState } from 'react'
-import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import ListGroup from 'react-bootstrap/ListGroup';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/Store'
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import { AppDispatch, RootState } from '../../redux/Store';
 import { AuthState } from "../../models/AuthState";
 import { remoteUrl } from "../../models/URL";
 import { Reimbursement, Status } from "../../models/Reimbursement";
 import { updateReimbursement } from "../../redux/slices/reimbursementSlice";
 import { useNavigate } from "react-router";
-import { logoutUser } from "../../redux/slices/userSlice";
+import "./ViewReimbursements.css";
+import Navbar from "../Navbar/Navbar";
 
 interface ErrorType {
   loading: boolean,
@@ -49,8 +42,7 @@ function ViewReimbursements() {
     }
 
     useEffect(() => {
-        fetchTickets(); 
-        console.log(user.user.role);
+        fetchTickets();
     }, []);
   
 
@@ -61,71 +53,78 @@ function ViewReimbursements() {
         return tickets.filter((ticket) => ticket.status.includes(filter));
     }, [filter, tickets]);
 
-
-   function handleFilter(event: React.MouseEvent<HTMLInputElement>) {
-      setFilter(event.currentTarget.value);
-   }
-
     const approveReimbursement = (ticket: Reimbursement) => {
         ticket.status = Status.APPROVED;
-        console.log("Approve", ticket);
         dispatch(updateReimbursement(ticket));
         navigate("/view-reimbursements");
     }
 
     const denyReimbursement = (ticket: Reimbursement) => {
         ticket.status = Status.DENIED;
-        console.log("Deny", ticket);
         dispatch(updateReimbursement(ticket));
         navigate("/view-reimbursements");
     }
 
 
     return (
-        <Container fluid>
-        {fetch.loading ? <h1>Loading</h1> 
-        : fetch.error ? <h1>{fetch.message}</h1> 
-        : <>
-            <Container>
-                <button onClick={() => { navigate('/reimbursements') }}>Create Reimbursement</button>
-                <button onClick={() => { dispatch(logoutUser()).then(() => navigate("/")) }}>Logout</button>
-            <DropdownButton id="dropdown-item-button" title="Filter">
-                <Dropdown.Item as="button" onClick={handleFilter} value='PENDING'>Pending</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={handleFilter} value='APPROVED'>Approved</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={handleFilter} value='DENIED'>Denied</Dropdown.Item>
-            </DropdownButton>
-            </Container>
-            <Row style={{ minWidth: "50vw" }}>
-            {
-                filteredTickets.map(ticket => (
-                <Col key={ticket.id}>
-                    <Card style={{ width: '18rem' }} >
-                    <Card.Img variant="top" src={ticket.imageUrl} alt={ticket.status}/>
-                    <Card.Body>
-                        <Card.Text>{ticket.description}</Card.Text>
-                    </Card.Body>
-                    <ListGroup className="list-group-flush">
-                        <ListGroup.Item>{`$${ticket.amount}`}</ListGroup.Item>
-                        <ListGroup.Item>{ticket.status}</ListGroup.Item>
-                        <ListGroup.Item>{ticket.submitter}</ListGroup.Item>
-                    </ListGroup>
-                    {
-                        user.user.role === 'finance_manager' && ticket.status === Status.PENDING ? 
-                            <Card.Body>
-                                <Button variant='success' onClick={() => approveReimbursement(ticket)}>Approve</Button>
-                                <Button variant='danger' onClick={() => denyReimbursement(ticket)}>Deny</Button>
-                            </Card.Body> :
-                            <></>
-                    }
-                    </Card>
-                </Col>
-                ))
-            }
-            </Row>
-            </>
-        }
-        </Container>
-    )
+        <div>
+            <Navbar/>
+            <div className="container">
+                {fetch.loading ? (
+                    <h1 className="view-reimbursements-header">Loading</h1>
+                    ) : fetch.error ? (
+                        <h1 className="view-reimbursements-header">{fetch.message}</h1>
+                        ) : (
+                    <>
+                        <div className="header">
+                            <h1 className="view-reimbursements-header">Reimbursements</h1>
+                            <div className="filter-container">
+                                <button className="filter-button" onClick={() => setFilter('')}>
+                                    All Tickets
+                                </button>
+                                <button className="filter-button" onClick={() => setFilter('PENDING')}>
+                                    Pending
+                                </button>
+                                <button className="filter-button" onClick={() => setFilter('APPROVED')}>
+                                    Approved
+                                </button>
+                                <button className="filter-button" onClick={() => setFilter('DENIED')}>
+                                    Denied
+                                </button>
+                            </div>
+                        </div>
+                        <div className="row justify-content-center card-container">
+                            {filteredTickets.map((ticket) => (
+                                <div className="col-md-4 mb-4" key={ticket.id}>
+                                    <div className="card">
+                                        <img className="card-img-top card-image" src={ticket.imageUrl} alt={ticket.status} />
+                                        <div className="card-body">
+                                            <p className="card-text">{ticket.description}</p>
+                                        </div>
+                                        <ul className="list-group list-group-flush">
+                                            <li className="list-group-item">Amount: ${ticket.amount}</li>
+                                            <li className="list-group-item">Status: {ticket.status}</li>
+                                            <li className="list-group-item">Submitter: {ticket.submitter}</li>
+                                        </ul>
+                                        {user.user.role === 'finance_manager' && ticket.status === Status.PENDING ? (
+                                            <div className="card-body approve-deny-buttons">
+                                                <button className="button approve" onClick={() => approveReimbursement(ticket)}>
+                                                    Approve
+                                                </button>
+                                                <button className="button deny" onClick={() => denyReimbursement(ticket)}>
+                                                    Deny
+                                                </button>
+                                            </div>
+                                        ) : null}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                )}
+            </div>
+        </div>
+    );
 }
 
 export default ViewReimbursements

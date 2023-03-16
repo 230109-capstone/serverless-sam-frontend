@@ -1,14 +1,56 @@
 #addReimbursementsForm {
-    background-color: rgb(255, 255, 255);
     display: flex;
-    flex-flow: column;
-    max-width: 40%;
-    min-height: 550px;
-    padding: 45px 45px 75px;
-    justify-content: center;
-    box-sizing: border-box;
-    line-height: 1.2;
-    margin: auto auto 15px;
-    border-radius: 10px;
-    border: 2px black solid; 
+    margin: auto;
+    margin-top: 5%;
+    flex-direction: column;
+    width: 25%;
+    box-shadow: 0 0 10px #000000, 0 0 15px #c1c2c1, 0 0 20px #919191, 0 0 25px #b6b6b6;
+    background-color: #e0dfdfdc;
+    margin-bottom: 10px;
+    gap: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.form-header {
+    text-align: center;
+    font-size: 2.2rem;
+    margin: 25px;
+}
+  
+#addReimbursementsForm label {
+    font-weight: bold;
+}
+  
+#amount, #description {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+}
+  
+#file {
+    margin-bottom: 10px;
+}
+  
+#form-picture {
+    width: 100px;
+    margin-bottom: 10px;
+}
+  
+#form-submit {
+    background-color: #242424;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    padding: 0.5rem 1rem;
+    transition: all 0.5s ease-in-out;
+}
+  
+#form-submit:hover {
+    border: 1px solid rgb(0, 0, 0);
+    background-color: #ffffff;
+    color: #242424;
 }

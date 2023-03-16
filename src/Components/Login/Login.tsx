@@ -28,10 +28,7 @@ function Login() {
             password
         }
 
-        dispatch(login(user))
-            .then(() => {
-                navigate('/view-reimbursements')
-            })
+        dispatch(login(user));
     }
 
     useEffect(() => {
@@ -42,20 +39,28 @@ function Login() {
 
     return (
         <form name="loginForm" id="loginForm" onSubmit={submitHandler}>
-            <h3 className="header">Login</h3>
+            <h1 className="header">Login</h1>
 
-            {userState.loginError ? <h3>Incorrect email or password </h3> : <></>}
+            {userState.loginError ? <h5>Incorrect email or password </h5> : <></>}
+            <input type="text" 
+                className="inputLogin" 
+                name="username" 
+                placeholder="Username"
+                onChange={usernameHandler}
+                required
+            />
 
-            <p><input type="text" className="inputLogin" name="username" placeholder="username"
-                      onChange={usernameHandler}
-                      required/></p>
-
-            <p><input type="password" className="inputLogin" name='password' placeholder='password'
-                      onChange={passwordHandler}
-                      required/></p>
-
-            <input type="submit" id="loginBtn" value="Log In"/>
-            <Link className="registerLink" to='/register'>Don't have an account?</Link>
+            <input type="password" 
+                className="inputLogin" 
+                name='password' 
+                placeholder='Password'
+                onChange={passwordHandler}
+                required
+            />
+            <div className="loginFormSubmit">
+                <button type="submit" id="loginBtn" value="Log In">Login</button>
+                <button className="registerLinkFromLogin" onClick={() => navigate("/register")}>Register</button>
+            </div>
         </form>
     )
 }
