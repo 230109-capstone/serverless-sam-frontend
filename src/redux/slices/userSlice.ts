@@ -37,9 +37,7 @@ export const login = createAsyncThunk(
     async (user: LoginUser, thunkAPI) => {
         try {
             const res = await axios.post(`${remoteUrl}/login`, user);
-            console.log('success')
             localStorage.setItem("token", res.data["token"]);
-            console.log(res.data);
             return res.data;
         } catch (e) {
             return thunkAPI.rejectWithValue('Incorrect username or password');
@@ -50,7 +48,6 @@ export const login = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
     'logout',
     async () => {
-        console.log("Logged Out");
         try{    
             localStorage.removeItem("token");
         } catch(e) {

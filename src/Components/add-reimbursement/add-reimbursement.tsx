@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import './add-reimbursement.css'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/Store';
+import Navbar from "../Navbar/Navbar";
 
 function ReimbursementSubmit() {
     const [amount, setAmount] = useState('');
@@ -90,20 +91,20 @@ function ReimbursementSubmit() {
 
     return (
         <>
+        <Navbar />
             <form id="addReimbursementsForm" onSubmit={(event) => { event.preventDefault() }}>
-                <h1>Reimbursements Form</h1>
+                <h1 className="form-header">Reimbursements Form</h1>
                 {imageError ? <p className='missingImage' id={"error"}>Please provide an image</p> : ""}
                 <label htmlFor="amount">Amount</label>
                 <input onChange={(e) => { setAmount(e.target.value) }} value={amount} type="text" id="amount" name="amount" placeholder="Amount" /><br /><br />
                 <label htmlFor="description">Description</label>
                 <input onChange={(e) => { setDescription(e.target.value) }} value={description} type="text" id="description" name="description" placeholder="Description"/><br /><br />
                 <label htmlFor="file">Image</label>
-                <input onChange={ e => { handleFileUpload(e) }} ref={aRef} type="file" id="file" name="file" accept="image/png, image/jpeg"/>{image ? (<img src={image} alt='receipt'/>) : ""}<br /><br />
-                <button onClick={submitReimbursement}>Submit</button><button onClick={() => { goToViewPage() }}>View Reimbursements</button>
+                <input onChange={ e => { handleFileUpload(e) }} ref={aRef} type="file" id="file" name="file" accept="image/png, image/jpeg"/>{image ? (<img id="form-picture" src={image} alt='receipt'/>) : ""}<br /><br />
+                <button id="form-submit" onClick={submitReimbursement}>Submit</button>
             </form>
         </>
     )
 }
 
 export default ReimbursementSubmit;
-

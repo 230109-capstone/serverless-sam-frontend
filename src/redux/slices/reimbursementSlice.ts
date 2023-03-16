@@ -8,7 +8,6 @@ export const createReimbursement = createAsyncThunk(
     async (reimbursement: Reimbursement, thunkAPI) => {
         try {
             const res = await axios.post(`${remoteUrl}/reimbursements`, reimbursement);
-            console.log(res.data);
             return res.data;
         } catch (e) {
             return thunkAPI.rejectWithValue('Failed to create Reimbursement');
@@ -21,7 +20,6 @@ export const getReimbursements = createAsyncThunk(
     async (reimbursement: Reimbursement[], thunkAPI) => {
         try {
             const res = await axios.get(`${remoteUrl}/reimbursements`);
-            console.log(res.data);
             return res.data;
         } catch (e) {
             return thunkAPI.rejectWithValue('Failed to get Reimbursements');
@@ -36,7 +34,6 @@ export const updateReimbursement = createAsyncThunk(
             const res = await axios.patch(`${remoteUrl}/reimbursements`, reimbursement, {headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }});
-            console.log(res.data);
             return res.data;
         } catch (e) {
             return thunkAPI.rejectWithValue('Not Authorized');
